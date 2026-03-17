@@ -13,7 +13,9 @@ export const CommissionController = {
 
   getById: (async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = Array.isArray(req.params.id)
+        ? req.params.id[0]
+        : req.params.id;
       const commission = await CommissionService.getCommissionById(id);
       if (!commission) return res.status(404).json({ message: 'Commission not found' });
       res.status(200).json(commission);
@@ -33,7 +35,9 @@ export const CommissionController = {
 
 async update(req: Request, res: Response) {
   try {
-    const { id } = req.params;
+    const id = Array.isArray(req.params.id)
+      ? req.params.id[0]
+      : req.params.id;
     const { month, year } = req.body;
 
     const commission = await CommissionService.updateCommission(id, req.body);
@@ -52,7 +56,9 @@ async update(req: Request, res: Response) {
 
   async delete(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const id = Array.isArray(req.params.id)
+        ? req.params.id[0]
+        : req.params.id;
       await CommissionService.deleteCommission(id);
       res.status(204).send();
     } catch (error) {
@@ -61,7 +67,9 @@ async update(req: Request, res: Response) {
   },
   async updateAllForMember(req: Request, res: Response) {
   try {
-    const { memberId } = req.params;
+    const memberId = Array.isArray(req.params.memberId)
+      ? req.params.memberId[0]
+      : req.params.memberId;
     const { is_paid } = req.body;
 
     const updated = await CommissionService.updateAllCommissionsForMember(memberId, is_paid);
@@ -78,7 +86,10 @@ async update(req: Request, res: Response) {
 
 async  getMonthlyCommissionsController  (req: Request, res: Response)  {
   try {
-    const memberId = req.params.memberId;
+    const memberId = Array.isArray(req.params.memberId)
+      ? req.params.memberId[0]
+      : req.params.memberId;
+
     const data = await CommissionService.getMonthlyCommissions(memberId);
     res.status(200).json(data);
   } catch (error: any) {

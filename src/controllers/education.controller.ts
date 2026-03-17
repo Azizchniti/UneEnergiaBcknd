@@ -13,7 +13,10 @@ export const getAllCourses = async (_req: Request, res: Response) => {
 
 export const getCourseById = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.getCourseById(req.params.id);
+     const id = Array.isArray(req.params.id)
+          ? req.params.id[0]
+          : req.params.id;
+    const data = await EducationService.getCourseById(id);
     res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -38,7 +41,10 @@ export const createCourse = async (req: Request, res: Response) => {
 
 export const updateCourse = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.updateCourse(req.params.id, req.body);
+      const id = Array.isArray(req.params.id)
+          ? req.params.id[0]
+          : req.params.id;
+    const data = await EducationService.updateCourse(id, req.body);
     res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -47,7 +53,10 @@ export const updateCourse = async (req: Request, res: Response) => {
 
 export const deleteCourse = async (req: Request, res: Response) => {
   try {
-    await EducationService.deleteCourse(req.params.id);
+      const id = Array.isArray(req.params.id)
+          ? req.params.id[0]
+          : req.params.id;
+    await EducationService.deleteCourse(id);
     res.status(204).send();
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -66,7 +75,10 @@ export const getAllClasses = async (_req: Request, res: Response) => {
 
 export const getClassById = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.getClassById(req.params.id);
+    const id = Array.isArray(req.params.id)
+          ? req.params.id[0]
+          : req.params.id;
+    const data = await EducationService.getClassById(id);
     res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -102,7 +114,10 @@ export const createClass = async (req: Request, res: Response) => {
 
 export const updateClass = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.updateClass(req.params.id, req.body);
+    const id = Array.isArray(req.params.id)
+          ? req.params.id[0]
+          : req.params.id;
+    const data = await EducationService.updateClass(id, req.body);
     res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -111,7 +126,10 @@ export const updateClass = async (req: Request, res: Response) => {
 
 export const deleteClass = async (req: Request, res: Response) => {
   try {
-    await EducationService.deleteClass(req.params.id);
+    const id = Array.isArray(req.params.id)
+  ? req.params.id[0]
+  : req.params.id;
+    await EducationService.deleteClass(id);
     res.status(204).send();
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -132,8 +150,11 @@ export const getAllCertifications = async (_req: Request, res: Response) => {
 
 export const getCertificationById = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.getCertificationById(req.params.id);
-    res.status(200).json(data);
+    const id = Array.isArray(req.params.id)
+    ? req.params.id[0]
+    : req.params.id;
+      const data = await EducationService.getCertificationById(id);
+      res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
@@ -150,7 +171,10 @@ export const createCertification = async (req: Request, res: Response) => {
 
 export const updateCertification = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.updateCertification(req.params.id, req.body);
+    const id = Array.isArray(req.params.id)
+  ? req.params.id[0]
+  : req.params.id;
+    const data = await EducationService.updateCertification(id, req.body);
     res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -159,7 +183,10 @@ export const updateCertification = async (req: Request, res: Response) => {
 
 export const deleteCertification = async (req: Request, res: Response) => {
   try {
-    await EducationService.deleteCertification(req.params.id);
+      const id = Array.isArray(req.params.id)
+    ? req.params.id[0]
+    : req.params.id;
+    await EducationService.deleteCertification(id);
     res.status(204).send();
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -178,7 +205,10 @@ export const getAllLearningPaths = async (_req: Request, res: Response) => {
 
 export const getLearningPathById = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.getLearningPathById(req.params.id);
+    const id = Array.isArray(req.params.id)
+  ? req.params.id[0]
+  : req.params.id;
+    const data = await EducationService.getLearningPathById(id);
     res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -196,7 +226,10 @@ export const createLearningPath = async (req: Request, res: Response) => {
 
 export const updateLearningPath = async (req: Request, res: Response) => {
   try {
-    const data = await EducationService.updatePath(req.params.id, req.body);
+    const id = Array.isArray(req.params.id)
+  ? req.params.id[0]
+  : req.params.id;
+    const data = await EducationService.updatePath(id, req.body);
     res.status(200).json(data);
   } catch (err: any) {
     res.status(500).json({ message: err.message });
@@ -205,7 +238,10 @@ export const updateLearningPath = async (req: Request, res: Response) => {
 
 export const deleteLearningPath = async (req: Request, res: Response) => {
   try {
-    await EducationService.deletePath(req.params.id);
+    const id = Array.isArray(req.params.id)
+  ? req.params.id[0]
+  : req.params.id;
+    await EducationService.deletePath(id);
     res.status(204).send();
   } catch (err: any) {
     res.status(500).json({ message: err.message });

@@ -11,7 +11,9 @@ export const getAllUsersController = async (_req: Request, res: Response) => {
 };
 
 export const updateUserController = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = Array.isArray(req.params.id)
+    ? req.params.id[0]
+    : req.params.id;
   const updatedData = req.body;
   
 
@@ -24,7 +26,9 @@ export const updateUserController = async (req: Request, res: Response) => {
 };
 
 export const deleteUserController = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = Array.isArray(req.params.id)
+    ? req.params.id[0]
+    : req.params.id;
 
   try {
     const result = await deleteUser(id);

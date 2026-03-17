@@ -18,7 +18,10 @@ export const AnnouncementViewController = {
 
   async getUnseenCount(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
+     
+      const userId = Array.isArray(req.params.userId)
+        ? req.params.userId[0]
+        : req.params.userId;
       console.log('[Controller] userId:', userId); // ✅ Add this
       if (!userId)  res.status(400).json({ error: 'Missing userId' });
 

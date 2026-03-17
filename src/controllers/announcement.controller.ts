@@ -14,7 +14,9 @@ export const AnnouncementController = {
 
   getById: (async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = Array.isArray(req.params.id)
+        ? req.params.id[0]
+        : req.params.id;
       const announcement = await AnnouncementService.getAnnouncementById(id);
       if (!announcement) return res.status(404).json({ error: 'Announcement not found' });
       res.json(announcement);
@@ -34,7 +36,9 @@ export const AnnouncementController = {
 
   async update(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const id = Array.isArray(req.params.id)
+        ? req.params.id[0]
+        : req.params.id;
       const updated = await AnnouncementService.updateAnnouncement(id, req.body);
       res.json(updated);
     } catch (error: any) {
@@ -44,7 +48,9 @@ export const AnnouncementController = {
 
   async delete(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const id = Array.isArray(req.params.id)
+          ? req.params.id[0]
+          : req.params.id;
       await AnnouncementService.deleteAnnouncement(id);
       res.status(204).send();
     } catch (error: any) {

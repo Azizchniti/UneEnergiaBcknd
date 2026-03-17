@@ -13,7 +13,9 @@ export const LeadController = {
 
   getById: (async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = Array.isArray(req.params.id)
+      ? req.params.id[0]
+      : req.params.id;
       const lead = await LeadService.getLeadById(id);
       if (!lead) return res.status(404).json({ error: 'Lead not found' });
       res.json(lead);
@@ -33,7 +35,9 @@ export const LeadController = {
 
   update: (async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = Array.isArray(req.params.id)
+        ? req.params.id[0]
+        : req.params.id;
       const lead = await LeadService.updateLead(id, req.body);
       res.json(lead);
     } catch (error: any) {
@@ -43,7 +47,9 @@ export const LeadController = {
 
   delete: (async (req, res) => {
     try {
-      const { id } = req.params;
+    const id = Array.isArray(req.params.id)
+      ? req.params.id[0]
+      : req.params.id;
       await LeadService.deleteLead(id);
       res.status(204).send();
     } catch (error: any) {
