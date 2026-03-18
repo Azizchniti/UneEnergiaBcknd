@@ -265,16 +265,28 @@ async updatePath(id: string, updates: Partial<LearningPath>): Promise<LearningPa
 
 
 export const LearningMaterialService = {
-  async createMaterial(material: Partial<LearningMaterial>): Promise<LearningMaterial> {
-    const { data, error } = await supabase
-      .from('learning_materials')
-      .insert([material])
-      .select()
-      .single();
+ async createMaterial(material: Partial<LearningMaterial>): Promise<LearningMaterial> {
+  const materialToInsert = {
+    title: material.title,
+    description: material.description || null,
+    url: material.url,
+    type: material.type || "link",
+    learning_path_id: material.learning_path_id || null, // ✅ THIS LINE FIXES YOUR PROBLEM
+  };
 
-    if (error) throw error;
-    return data;
-  },
+  const { data, error } = await supabase
+    .from('learning_materials')
+    .insert([materialToInsert])
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Supabase error:", error); // 🔥 add this for debugging
+    throw error;
+  }
+
+  return data;
+},
    async getAllMaterials(): Promise<LearningMaterial[]> {
     const { data, error } = await supabase
       .from("learning_materials")
@@ -293,17 +305,22 @@ export const LearningMaterialService = {
     return data;
   },
 
-  async updateMaterial(id: string, updates: Partial<LearningMaterial>): Promise<LearningMaterial> {
-    const { data, error } = await supabase
-      .from('learning_materials')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single();
+async updateMaterial(id: string, updates: Partial<LearningMaterial>): Promise<LearningMaterial> {
+  const updatedData = {
+    ...updates,
+    learning_path_id: updates.learning_path_id || null, // ✅ same fix
+  };
 
-    if (error) throw error;
-    return data;
-  },
+  const { data, error } = await supabase
+    .from('learning_materials')
+    .update(updatedData)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+},
 
   async deleteMaterial(id: string): Promise<void> {
     const { error } = await supabase
