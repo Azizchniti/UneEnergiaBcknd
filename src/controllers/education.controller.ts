@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EducationService } from '../services/education.service';
+import { EducationService, LearningMaterialService } from '../services/education.service';
 
 // --------- Courses ---------
 export const getAllCourses = async (_req: Request, res: Response) => {
@@ -242,6 +242,64 @@ export const deleteLearningPath = async (req: Request, res: Response) => {
   ? req.params.id[0]
   : req.params.id;
     await EducationService.deletePath(id);
+    res.status(204).send();
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+// --------- Learning Materials ---------
+export const getAllLearningMaterials = async (req: Request, res: Response) => {
+  try {
+    const data = await LearningMaterialService.getAllMaterials();
+    res.status(200).json(data);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getLearningMaterialById = async (req: Request, res: Response) => {
+  try {
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const data = await LearningMaterialService.getMaterialById(id);
+    res.status(200).json(data);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getMaterialsByPath = async (req: Request, res: Response) => {
+  try {
+    const pathId = Array.isArray(req.params.pathId) ? req.params.pathId[0] : req.params.pathId;
+    const data = await LearningMaterialService.getMaterialsByPath(pathId);
+    res.status(200).json(data);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const createLearningMaterial = async (req: Request, res: Response) => {
+  try {
+    const data = await LearningMaterialService.createMaterial(req.body);
+    res.status(201).json(data);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const updateLearningMaterial = async (req: Request, res: Response) => {
+  try {
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const data = await LearningMaterialService.updateMaterial(id, req.body);
+    res.status(200).json(data);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const deleteLearningMaterial = async (req: Request, res: Response) => {
+  try {
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    await LearningMaterialService.deleteMaterial(id);
     res.status(204).send();
   } catch (err: any) {
     res.status(500).json({ message: err.message });

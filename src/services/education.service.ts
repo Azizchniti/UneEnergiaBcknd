@@ -4,6 +4,7 @@ import {
   Course,
   Certification,
   LearningPath,
+  LearningMaterial,
 } from '../types/educational.types';
 
 export const EducationService = {
@@ -260,4 +261,66 @@ async updatePath(id: string, updates: Partial<LearningPath>): Promise<LearningPa
 
     if (error) throw error;
   }
+};
+
+
+export const LearningMaterialService = {
+  async createMaterial(material: Partial<LearningMaterial>): Promise<LearningMaterial> {
+    const { data, error } = await supabase
+      .from('learning_materials')
+      .insert([material])
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+   async getAllMaterials(): Promise<LearningMaterial[]> {
+    const { data, error } = await supabase
+      .from("learning_materials")
+      .select("*");
+
+    if (error) throw error;
+    return data;
+  },
+    async getMaterialById(id: string): Promise<LearningMaterial> {
+    const { data, error } = await supabase
+      .from("learning_materials")
+      .select("*")
+      .eq("id", id)
+      .single(); // we expect exactly one row
+    if (error) throw error;
+    return data;
+  },
+
+  async updateMaterial(id: string, updates: Partial<LearningMaterial>): Promise<LearningMaterial> {
+    const { data, error } = await supabase
+      .from('learning_materials')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  async deleteMaterial(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('learning_materials')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+  },
+
+  async getMaterialsByPath(pathId: string): Promise<LearningMaterial[]> {
+    const { data, error } = await supabase
+      .from('learning_materials')
+      .select()
+      .eq('learning_path_id', pathId);
+
+    if (error) throw error;
+    return data;
+  },
 };

@@ -32,4 +32,12 @@ router.post('/paths', EducationController.createLearningPath);
 router.put('/paths/:id', EducationController.updateLearningPath);
 router.delete('/paths/:id', EducationController.deleteLearningPath);
 
+// Learning Materials
+router.get('/materials', EducationController.getAllLearningMaterials);
+router.get('/materials/:id', EducationController.getLearningMaterialById);
+router.get('/materials/by-path/:pathId', EducationController.getMaterialsByPath);
+router.post('/materials', EducationController.createLearningMaterial);
+router.put('/materials/:id', EducationController.updateLearningMaterial);
+router.delete('/materials/:id', EducationController.deleteLearningMaterial);
+
 export default router;
