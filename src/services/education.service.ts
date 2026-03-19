@@ -306,11 +306,13 @@ export const LearningMaterialService = {
   },
 
 async updateMaterial(id: string, updates: Partial<LearningMaterial>): Promise<LearningMaterial> {
-  const updatedData = {
-    ...updates,
-    learning_path_id: updates.learning_path_id || null, // ✅ same fix
-  };
-
+ const updatedData = {
+  title: updates.title,
+  description: updates.description,
+  url: updates.url,
+  learning_path_id: updates.learning_path_id || null,
+};
+console.log("UPDATES RECEIVED:", updates);
   const { data, error } = await supabase
     .from('learning_materials')
     .update(updatedData)
